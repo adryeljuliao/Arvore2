@@ -3,6 +3,8 @@ package com.juliao.adryel.arvore;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,16 +15,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
+
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ArrayList<Arvore> listaArvores = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);
+        carrega();
+//cria-se um recycler view para setar o adapter
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        //pega a viewpage da activity main
+
+
+        //cria-se um adapter
+        RecyclerArvores adapter = new RecyclerArvores(listaArvores, MainActivity.this);
+        //seta o adapter no recycler view
+        recyclerView.setAdapter(adapter);
+        //Layout na qual define se os layouts inflados serão ou em grid ou em forma de lista
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layout);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,5 +118,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void carrega(){
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
     }
 }
