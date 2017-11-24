@@ -1,16 +1,8 @@
 package com.juliao.adryel.arvore;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,11 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -45,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         carrega();
 //cria-se um recycler view para setar o adapter
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         //pega a viewpage da activity main
 
 
@@ -56,8 +44,6 @@ public class MainActivity extends AppCompatActivity
         //Layout na qual define se os layouts inflados serão ou em grid ou em forma de lista
         RecyclerView.LayoutManager layout = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
-
-        //botao flutuante
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +53,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //menu gaveta
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -103,11 +88,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_camera) {
-            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(i, 1);
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -137,50 +120,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void carrega() {
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros").builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros").builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros").builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros").builder());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-
-            if (data != null) {
-                Intent i = new Intent(MainActivity.this, CadastroArvore.class);
-
-
-                Bundle extra = data.getExtras();
-                Bitmap imagemBitmap = (Bitmap) extra.get("data");
-
-                FileOutputStream file = null;
-
-                try {
-                    file = openFileOutput("photo.jpg", Context.MODE_PRIVATE);
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                imagemBitmap.compress(Bitmap.CompressFormat.JPEG, 85, file);
-
-                try {
-                    file.flush();
-                    file.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(this, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
-                startActivity(i);
-            }
-
-
-        }
-
-
+    public void carrega(){
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
     }
 }
