@@ -29,7 +29,7 @@ public class RecyclerArvores extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(context).inflate(R.layout.activity_teste_fabin, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.layout_arvores, parent, false);
         ArvoresViewHolder arvoresViewHolder = new ArvoresViewHolder(v);
 
 

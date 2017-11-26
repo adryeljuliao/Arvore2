@@ -14,15 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ArrayList<Arvore> listaArvores = new ArrayList<>();
-
+    ImageButton proximo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,9 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         carrega();
-//cria-se um recycler view para setar o adapter
+        //cria-se um recycler view para setar o adapter
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         //pega a viewpage da activity main
-
 
         //cria-se um adapter
         RecyclerArvores adapter = new RecyclerArvores(listaArvores, MainActivity.this);
@@ -61,6 +60,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        proximo = (ImageButton) findViewById(R.id.proximo);
+
+    }
+
+    public void proximo(View v){
+        Snackbar.make(v, "Botao da proxima pagina", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
@@ -101,17 +108,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.listaarvores) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.listaocorrencias) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.sair) {
 
         }
 
@@ -121,9 +122,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void carrega(){
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.logo, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de palmeira", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de teste", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
+        listaArvores.add(new Arvore.ArvoreBuilder("Arvore da lala", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
     }
 }
