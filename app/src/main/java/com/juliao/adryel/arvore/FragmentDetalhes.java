@@ -12,7 +12,8 @@ public class FragmentDetalhes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.activity_fragment_detalhes, container, false);
-        //logica do fragment
+
+
         return v;
     }
 

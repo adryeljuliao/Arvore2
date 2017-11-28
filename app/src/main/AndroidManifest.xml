@@ -19,8 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroArvore" />
-        <activity android:name=".CadastroOcorrencia"></activity>
+        <activity android:name=".CadastroArvore">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"></meta-data>
+        </activity>
+        <activity android:name=".CadastroOcorrencia">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"></meta-data>
+        </activity>
     </application>
 
 </manifest>

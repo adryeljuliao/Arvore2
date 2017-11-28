@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/listaarvores"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/arvore_preta"
             android:title="Lista de Arvores" />
         <item
             android:id="@+id/listaocorrencias"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/perigo_preto"
             android:title="Lista de Ocorrências" />
         <item
             android:id="@+id/ajuda"
