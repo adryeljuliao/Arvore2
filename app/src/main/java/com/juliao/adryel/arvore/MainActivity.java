@@ -3,7 +3,7 @@ package com.juliao.adryel.arvore;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton proximo;
@@ -85,13 +86,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         proximo = (ImageButton) findViewById(R.id.proximo);
 
-        FragmentPrincipal fragmentPrincipal = new FragmentPrincipal();
+        FragmentRecyclerArvores fragmentRecyclerArvores = new FragmentRecyclerArvores();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentLayout, fragmentPrincipal);
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentLayout, fragmentRecyclerArvores);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentLayout, fragmentPrincipal);
+        transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
         transaction.commit();
+
+
     }
 
     public void proximo(View v){
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FragmentDetalhes fragmentDetalhes = new FragmentDetalhes();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentLayout, fragmentDetalhes);
+                transaction.addToBackStack(null);//Pilha de fragment
                 transaction.commit();
                 break;
         }
@@ -113,21 +117,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        int cont = getFragmentManager().getBackStackEntryCount();
+        FragmentManager fm = getSupportFragmentManager();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if(cont == 0){
+        if (drawer.isDrawerOpen(GravityCompat.START) ) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if(fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
             super.onBackPressed();
-        }else{
-            getFragmentManager().popBackStack();
         }
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//
-//        }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,11 +161,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.listaarvores) {
-            // Handle the camera action
+            FragmentRecyclerArvores fragmentRecyclerArvores = new FragmentRecyclerArvores();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
+            transaction.commit();
         } else if (id == R.id.listaocorrencias) {
-
-        } else if (id == R.id.sair) {
-
+            FragmentRecyclerOcorrencias fragmentRecyclerOcorrencias = new FragmentRecyclerOcorrencias();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentLayout, fragmentRecyclerOcorrencias);
+            transaction.commit();
+        } else if (id == R.id.ajuda) {
+            FragmentAjuda fragmentAjuda = new FragmentAjuda();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentLayout, fragmentAjuda);
+            transaction.commit();
+        } else if(id == R.id.sair){
+            Toast.makeText(getApplicationContext(), "SAIU", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

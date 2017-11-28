@@ -20,11 +20,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".CadastroArvore">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"></meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".CadastroOcorrencia">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"></meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
+        <activity android:name=".FragmentRecyclerOcorrencias" />
+        <activity android:name=".FragmentAjuda"></activity>
     </application>
 
 </manifest>
