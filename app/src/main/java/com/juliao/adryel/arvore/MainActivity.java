@@ -1,10 +1,16 @@
 package com.juliao.adryel.arvore;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +21,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private ArrayList<Arvore> listaArvores = new ArrayList<>();
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton proximo;
+    boolean teste = true;
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +38,50 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        carrega();
-        //cria-se um recycler view para setar o adapter
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
-        //pega a viewpage da activity main
 
-        //cria-se um adapter
-        RecyclerArvores adapter = new RecyclerArvores(listaArvores, MainActivity.this);
-        //seta o adapter no recycler view
-        recyclerView.setAdapter(adapter);
-        //Layout na qual define se os layouts inflados serão ou em grid ou em forma de lista
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layout);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        final FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        final FloatingActionButton fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        final TextView textView = (TextView) findViewById(R.id.text11);
+        final TextView textView2 = (TextView) findViewById(R.id.text22);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fab.setVisibility(View.GONE);
+                fab1.setVisibility(View.VISIBLE);
+                fab2.setVisibility(View.VISIBLE);
+                fab3.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.VISIBLE);
+                textView2.setVisibility(View.VISIBLE);
+                fab3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fab.setVisibility(View.VISIBLE);
+                        fab1.setVisibility(View.GONE);
+                        fab2.setVisibility(View.GONE);
+                        fab3.setVisibility(View.GONE);
+                        textView.setVisibility(View.GONE);
+                        textView2.setVisibility(View.GONE);
+                    }
+                });
+
+                fab1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(getApplicationContext(), CadastroArvore.class);
+                        startActivity(i);
+                    }
+                });
+
+                fab2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(getApplicationContext(), CadastroOcorrencia.class);
+                        startActivity(i);
+                    }
+                });
+
             }
         });
 
@@ -63,12 +96,31 @@ public class MainActivity extends AppCompatActivity
 
         proximo = (ImageButton) findViewById(R.id.proximo);
 
+        FragmentPrincipal fragmentPrincipal = new FragmentPrincipal();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentLayout, fragmentPrincipal);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentLayout, fragmentPrincipal);
+        transaction.commit();
     }
 
     public void proximo(View v){
-        Snackbar.make(v, "Botao da proxima pagina", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        //metodo de start do fragment Detalhas
+        switch (v.getId()){
+            case R.id.proximo:
+                FragmentDetalhes fragmentDetalhes = new FragmentDetalhes();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLayout, fragmentDetalhes);
+                transaction.commit();
+                break;
+        }
     }
+
+    public void procurar(View v){
+        //metodo que busca as arvores
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -95,9 +147,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        if (id == R.id.action_camera) {
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -119,12 +172,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void carrega(){
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de piaui", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de palmeira", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore de teste", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
-        listaArvores.add(new Arvore.ArvoreBuilder("Arvore da lala", 15.5, 15.5, R.drawable.arvore, "5 metros" ).builder());
     }
 }

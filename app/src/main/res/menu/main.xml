@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_camera"
         android:orderInCategory="100"
-        android:title="Camera"
+        android:title="Buscar"
         app:showAsAction="always"
-        android:icon="@drawable/ic_menu_camera"/>
+        android:icon="@mipmap/procurar"/>
 </menu>

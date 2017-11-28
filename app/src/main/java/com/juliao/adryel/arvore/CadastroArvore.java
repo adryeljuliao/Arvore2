@@ -25,9 +25,10 @@ public class CadastroArvore extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
 
         // Enable the Up button
-
         imagemView = (ImageView) findViewById(R.id.takeFoto);
+        ab.setTitle("Cadastro de Árvores");
         ab.setDisplayHomeAsUpEnabled(true);
+
         FileInputStream fin ;
         try {
             //abre o arquivo chamado FILENAME para LEITURA
