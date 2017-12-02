@@ -67,6 +67,7 @@ public class CadastroArvore extends AppCompatActivity {
 
         mArvoresDatabaseReference = mFirebaseDatabase.getReference().child("arvore");
 
+        //Ajeitar o erro de localizaçao desativada
         gpsLocalizacao = new GPSLocalizacao(getApplicationContext());
         localizacao = gpsLocalizacao.getLocalizacao();
         latidude = localizacao.getLatitude();
@@ -144,13 +145,21 @@ public class CadastroArvore extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                 Uri downaloaduri = taskSnapshot.getDownloadUrl();
 
+                //progress bar que estava GONE, vaiaparecer....
+                //aguarde,
+
+                //o botao cadastrar deve ficar desabilitado..
+
                 Arvore arvore = new Arvore(nome.getText().toString(), descricao.getText().toString(), latidude, logitude,
                         downaloaduri.toString(), altura.getText().toString(), especie.getText().toString(), nome_usuario);
 
                 mArvoresDatabaseReference.push().setValue(arvore);
 
+                finish();
+
                 Log.i("testes", arvore.toString());
             }
         });
+
     }
 }

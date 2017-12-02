@@ -19,6 +19,8 @@ public class Detalhes extends AppCompatActivity{
     private TextView detalhes;
     private TextView especie;
     private TextView altura;
+
+    Arvore a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,50 +37,76 @@ public class Detalhes extends AppCompatActivity{
         ab.setTitle("Detalhes da Árvore");
         ab.setDisplayHomeAsUpEnabled(true);
 
-        Arvore a = new Arvore();
+        a = new Arvore();
 
         Intent recebe = getIntent();
         Bundle bundleArvore = recebe.getExtras();
 
-        a.setNome(bundleArvore.getString("nome"));
-        a.setAltura(bundleArvore.getString("altura"));
-        a.setDescricao(bundleArvore.getString("descricao"));
-        a.setEspecie(bundleArvore.getString("especie"));
-        a.setImagem(bundleArvore.getString("imagem"));
-        a.setLatitude(bundleArvore.getDouble("latitude"));
-        a.setLongitude(bundleArvore.getDouble("longitude"));
-        a.setEspecie(bundleArvore.getString("especie"));
-        a.setNomeUsuario(bundleArvore.getString("nomeUsuario"));
+        if (bundleArvore!=null){
+            a.setNome(bundleArvore.getString("nome"));
+            a.setAltura(bundleArvore.getString("altura"));
+            a.setDescricao(bundleArvore.getString("descricao"));
+            a.setEspecie(bundleArvore.getString("especie"));
+            a.setImagem(bundleArvore.getString("imagem"));
+            a.setLatitude(bundleArvore.getDouble("latitude"));
+            a.setLongitude(bundleArvore.getDouble("longitude"));
+            a.setEspecie(bundleArvore.getString("especie"));
+            a.setNomeUsuario(bundleArvore.getString("nomeUsuario"));
 
-        nome.setText(a.getNome());
-        detalhes.setText(a.getDescricao());
-        altura.setText(a.getAltura());
-        especie.setText(a.getEspecie());
-        Glide.with(imageView.getContext())
-                .load(a.getImagem())
-                .into(imageView);
-
-        Log.i("TESTE", a.toString());
-
+            nome.setText(a.getNome());
+            detalhes.setText(a.getDescricao());
+            altura.setText(a.getAltura());
+            especie.setText(a.getEspecie());
+            Glide.with(imageView.getContext())
+                    .load(a.getImagem())
+                    .into(imageView);
+        }
     }
 
     public void location(View v){
-//        cont++;
-//        FragmentMapa fragmentMapa = new FragmentMapa();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragmentLayout, fragmentMapa);
-//        ActionBar ab = getSupportActionBar();
-//        ab.setTitle("Localização");
-//        fab.setVisibility(View.GONE);
-//        transaction.commit();
-
         Intent intent = new Intent(getApplicationContext(), Mapa.class);
-        startActivity(intent);
+        Bundle arvoreBundle = new Bundle();
+
+        arvoreBundle.putString("nome", a.getNome());
+        arvoreBundle.putString("descricao", a.getDescricao());
+        arvoreBundle.putString("especie", a.getEspecie());
+        arvoreBundle.putString("altura", a.getAltura());
+        arvoreBundle.putDouble("latitude", a.getLatitude());
+        arvoreBundle.putDouble("longitude", a.getLongitude());
+        arvoreBundle.putString("nomeUsuario", a.getNomeUsuario());
+        arvoreBundle.putString("imagem", a.getImagem());
+
+        intent.putExtras(arvoreBundle);
+
+        startActivityForResult(intent, 7777);
+
 
     }
-    private void findWidigets(){
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 7777){
+            Bundle bundleArvore = data.getExtras();
+
+            a.setNome(bundleArvore.getString("nome"));
+            a.setAltura(bundleArvore.getString("altura"));
+            a.setDescricao(bundleArvore.getString("descricao"));
+            a.setEspecie(bundleArvore.getString("especie"));
+            a.setImagem(bundleArvore.getString("imagem"));
+            a.setLatitude(bundleArvore.getDouble("latitude"));
+            a.setLongitude(bundleArvore.getDouble("longitude"));
+            a.setEspecie(bundleArvore.getString("especie"));
+            a.setNomeUsuario(bundleArvore.getString("nomeUsuario"));
+
+            nome.setText(a.getNome());
+            detalhes.setText(a.getDescricao());
+            altura.setText(a.getAltura());
+            especie.setText(a.getEspecie());
+            Glide.with(imageView.getContext())
+                    .load(a.getImagem())
+                    .into(imageView);
+        }
     }
-
 }

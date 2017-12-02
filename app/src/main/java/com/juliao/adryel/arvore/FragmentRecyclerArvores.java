@@ -57,20 +57,18 @@ public class FragmentRecyclerArvores extends Fragment {
 
             @Override
             public void clickSimples(View view, int position) {
-//            findWidigets();
-//            nome.setText(listaArvores.get(position).getNome());
                 Intent intentDetalhes = new Intent(getActivity(), Detalhes.class);
                 Bundle arvoreBundle = new Bundle();
 
                 Arvore a = adapter.getArvore(position);
 
-                arvoreBundle.putString("nome", a.getNome() );
-                arvoreBundle.putString("descricao", a.getDescricao() );
-                arvoreBundle.putString("especie", a.getEspecie() );
-                arvoreBundle.putString("altura", a.getAltura() );
-                arvoreBundle.putDouble("latitude", a.getLatitude() );
-                arvoreBundle.putDouble("longitude", a.getLongitude() );
-                arvoreBundle.putString("nomeUsuario", a.getNomeUsuario() );
+                arvoreBundle.putString("nome", a.getNome());
+                arvoreBundle.putString("descricao", a.getDescricao());
+                arvoreBundle.putString("especie", a.getEspecie());
+                arvoreBundle.putString("altura", a.getAltura());
+                arvoreBundle.putDouble("latitude", a.getLatitude());
+                arvoreBundle.putDouble("longitude", a.getLongitude());
+                arvoreBundle.putString("nomeUsuario", a.getNomeUsuario());
                 arvoreBundle.putString("imagem", a.getImagem());
 
                 intentDetalhes.putExtras(arvoreBundle);

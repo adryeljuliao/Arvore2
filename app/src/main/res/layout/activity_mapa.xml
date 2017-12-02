@@ -9,6 +9,7 @@
     android:layout_margin="16dp">
 
         <TextView
+            android:id="@+id/nomeArvaoreMapa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nome da arvore"
