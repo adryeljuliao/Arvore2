@@ -1,31 +1,44 @@
 package com.juliao.adryel.arvore;
 
-import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 import java.io.IOException;
 
 public class CadastroArvore extends AppCompatActivity {
     ImageView imagemView;
 
-    final String[] permissoes = new String[]{
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-    };
+    //Arquivo de foto
+    private String pictureImagePath = "";
+
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mStorageReference;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mArvoresDatabaseReference;
+
+    File imgFile = null;
+
+    EditText nome, descricao, altura, especie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,70 +50,88 @@ public class CadastroArvore extends AppCompatActivity {
         ab.setTitle("Cadastro de Árvores");
         ab.setDisplayHomeAsUpEnabled(true);
 
-        // Enable the Up button
-        imagemView = (ImageView) findViewById(R.id.takeFoto);
+        mFirebaseStorage = FirebaseStorage.getInstance();
+        mStorageReference = mFirebaseStorage.getReference().child("cadastro_arvores");
 
-        FileInputStream fin ;
-        try {
-            //abre o arquivo chamado FILENAME para LEITURA
-            fin = openFileInput("photo_internal.jpg");
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        mArvoresDatabaseReference = mFirebaseDatabase.getReference().child("arvore");
 
-            Bitmap imagem = BitmapFactory.decodeStream(fin,null, options);
-
-            imagemView.setImageBitmap(imagem);
-
-            fin.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        for (int result : grantResults) {
-            if (result == PackageManager.PERMISSION_DENIED) {
-                alertAndFinish();
-                return;
+        if (checkStorage() == false){
+            Toast.makeText(this, "MASSA", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            Intent i = getIntent();
+            String arquivo = i.getStringExtra("imagename");
+            Log.i("TESTES", ""+ arquivo);
+            try {
+                imgFile = createImageFile(arquivo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.i("Imagem", imgFile.getAbsolutePath());
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                ImageView myImage = (ImageView) findViewById(R.id.takeFoto);
+                Log.i("Testes","Arquivo:"+ imgFile);
+                myImage.setImageBitmap(myBitmap);
+                myImage.setRotation(90);
             }
         }
+
+        nome = (EditText) findViewById(R.id.textnome);
+        descricao = (EditText) findViewById(R.id.textDescricao);
+        especie = (EditText) findViewById(R.id.textEspecie);
+        altura = (EditText) findViewById(R.id.textAltura);
     }
 
-    private void alertAndFinish() {
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Permissões").setMessage("Para utilizar este aplicativo, você precisa aceitar as permissões.");
+    private File createImageFile(String filename) throws IOException {
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        pictureImagePath = storageDir.getAbsolutePath()+"/"+filename;
+        File image = new File(pictureImagePath);
 
-            builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
-            builder.setPositiveButton("Permitir", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+        return image;
+    }
+
+    public boolean checkStorage(){
+        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
+            return false;
         }
+        return true;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        PermissionUtils.validate(this, 0, permissoes);
+
+    private static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void confirmarCadastroArvore(View v){
+        Uri selectedImageUri = Uri.fromFile(imgFile);
+        StorageReference photoref = mStorageReference.child(selectedImageUri.getLastPathSegment());
+
+        photoref.putFile(selectedImageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getApplicationContext(),"Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+                Uri downaloaduri = taskSnapshot.getDownloadUrl();
+
+                Arvore arvore = new Arvore.ArvoreBuilder(nome.getText().toString(), 0, 0, downaloaduri.toString(), altura.getText().toString()).builder();
+                mArvoresDatabaseReference.push().setValue(arvore);
+
+                Log.i("testes", arvore.toString());
+            }
+        });
     }
 }

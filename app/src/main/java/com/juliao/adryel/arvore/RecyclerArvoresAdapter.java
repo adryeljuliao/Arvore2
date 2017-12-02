@@ -9,14 +9,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
-public class RecyclerArvores extends RecyclerView.Adapter {
-    private ArrayList<Arvore> listArvores = new ArrayList<>();
+public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
+    private ArrayList<Arvore> listArvores;
     private Context context;
 
-    public RecyclerArvores(ArrayList<Arvore> listArvores, Context context) {
-        this.listArvores = listArvores;
+    public void add(Arvore arvore){
+        listArvores.add(arvore);
+        notifyItemInserted(listArvores.size()+1);
+    }
+
+    public void clear (){
+        listArvores = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public RecyclerArvoresAdapter(ArrayList<Arvore> listArvores, Context context) {
+        if (listArvores != null){
+            this.listArvores = listArvores;
+        }else{
+            this.listArvores = new ArrayList<>();
+        }
         this.context = context;
     }
 
@@ -35,7 +51,11 @@ public class RecyclerArvores extends RecyclerView.Adapter {
         ArvoresViewHolder arvoresViewHolder = (ArvoresViewHolder) holder;
         Arvore arvore = listArvores.get(position);
         arvoresViewHolder.nome.setText(arvore.getNome());
-        arvoresViewHolder.img.setImageResource(arvore.getImagem());
+
+//        arvoresViewHolder.img.setImageBitmap(arvore.getImagem());
+        Glide.with(arvoresViewHolder.img.getContext())
+                .load(arvore.getImagem())
+                .into(arvoresViewHolder.img);
     }
 
     @Override

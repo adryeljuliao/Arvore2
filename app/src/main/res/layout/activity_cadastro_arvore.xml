@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:background="#999"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -98,7 +98,8 @@
                     android:id="@+id/textAltura"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Altura da Árvore"/>
+                    android:hint="Altura da Árvore"
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
