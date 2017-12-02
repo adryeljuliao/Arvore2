@@ -2,12 +2,127 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:onClick="limpar"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.juliao.adryel.arvore.FragmentAjuda">
+    tools:context="com.juliao.adryel.arvore.FragmentAjuda"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AJUDA"/>
+        android:text="Informações"
+        android:layout_marginLeft="10dp"
+        android:textSize="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:onClick="ajuda">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/help_lista"/>
+
+        <TextView
+            android:id="@+id/senha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="9"
+            android:padding="8dp"
+            android:text="Alteração Senha"
+            android:textColor="#4b4b4b"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:onClick="ajuda">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/help_lista"/>
+
+        <TextView
+            android:id="@+id/excluir"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="9"
+            android:padding="8dp"
+            android:text="Excuir Conta"
+            android:textColor="#4b4b4b"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:onClick="ajuda">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/help_lista"/>
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="9"
+            android:padding="8dp"
+            android:text="Fazer login"
+            android:textColor="#4b4b4b"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:onClick="ajuda">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/feedback" />
+
+        <TextView
+            android:id="@+id/feedback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="9"
+            android:padding="8dp"
+            android:text="Enviar Feedback"
+            android:textColor="#4b4b4b"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+
 </LinearLayout>

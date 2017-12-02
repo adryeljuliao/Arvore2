@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.juliao.adryel.arvore"
         minSdkVersion 22
@@ -24,11 +24,27 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
+
+
+    compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.android.support:cardview-v7:26.+'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:cardview-v7:26.0.1'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
+    //realtime database
+    compile 'com.google.firebase:firebase-database:11.0.4'
+    //firebase auth
+    compile 'com.google.firebase:firebase-auth:11.0.4'
+    //FirebaseUI for Firebase Auth
+    compile 'com.firebaseui:firebase-ui-auth:2.3.0'
+    //Firebase storage
+    compile 'com.google.firebase:firebase-storage:11.0.4'
+    //Firebase messaging
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
+
+    compile 'com.github.bumptech.glide:glide:4.3.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

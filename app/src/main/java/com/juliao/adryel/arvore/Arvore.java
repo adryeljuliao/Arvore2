@@ -1,17 +1,15 @@
 package com.juliao.adryel.arvore;
 
-/**
- * Created by adryel.juliao on 22/11/2017.
- */
+import java.util.List;
 
 public class Arvore {
-
     private String nome;
     private double latitude;
     private double longitude;
-    private int imagem;
+    private int imagem;//string URL PARA O FIREBASE STOREGE
     private String altura;
     private String especie;
+    private List<Ocorrencia> listaOcorrencia;
 
     public Arvore(ArvoreBuilder builder) {
         this.nome = builder.nome;
@@ -20,6 +18,7 @@ public class Arvore {
         this.imagem = builder.imagem;
         this.latitude = builder.latitude;
         this.longitude = builder.longitude;
+        this.listaOcorrencia = builder.listaOcorrencia;
     }
 
 
@@ -30,6 +29,7 @@ public class Arvore {
         private int imagem;
         private String altura;
         private String especie;
+        private List<Ocorrencia> listaOcorrencia;
 
         public ArvoreBuilder(String nome, double latitude, double longitude, int imagem, String altura) {
             this.nome = nome;
@@ -41,6 +41,11 @@ public class Arvore {
 
         public ArvoreBuilder comEspecie(String especie){
             this.especie = especie;
+            return this;
+        }
+
+        public ArvoreBuilder comOcorrencia(List<Ocorrencia> listaOcorrencia){
+            this.listaOcorrencia = listaOcorrencia;
             return this;
         }
 
@@ -60,10 +65,6 @@ public class Arvore {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public void setImagem(int imagem) {
-        this.imagem = imagem;
     }
 
     public void setAltura(String altura) {
@@ -90,11 +91,23 @@ public class Arvore {
         return imagem;
     }
 
+    public void setImagem(int imagem) {
+        this.imagem = imagem;
+    }
+
     public String getAltura() {
         return altura;
     }
 
     public String getEspecie() {
         return especie;
+    }
+
+    public List<Ocorrencia> getListaOcorrencia() {
+        return listaOcorrencia;
+    }
+
+    public void setListaOcorrencia(List<Ocorrencia> listaOcorrencia) {
+        this.listaOcorrencia = listaOcorrencia;
     }
 }
