@@ -1,10 +1,6 @@
 package com.juliao.adryel.arvore;
 
-import android.*;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,33 +20,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.util.AbstractQueue;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
     NavigationView navigationView;
 
     FloatingActionButton fab;
@@ -71,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    FirebaseUser user;
 
     private String mUsername;
 
@@ -82,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE
     };
+
+    public Arvore arvoreDetalhes;
 
     //Contador dos fragments
     int cont = 0;
@@ -96,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //instacia do firebase auth
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
@@ -143,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                             startActivityForResult(cameraIntent, COD_CAMERA);
+
+
                         }
                     }
                 });
@@ -186,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 //pegar os dados do usuario
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 //se existir um usuario pego os dados dele,
                 if (user != null) {
                     //logado
@@ -218,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(requestCode == COD_CAMERA && resultCode == RESULT_OK){
                 Intent i = new Intent(getApplicationContext(), CadastroArvore.class);
                 i.putExtra("imagename", FILENAME+data_atual+".jpg"); // o nome da foto deve ser dinamico
+                i.putExtra("nome_user", user.getDisplayName());
                 Log.i("TESTES", data_atual+"");
                 startActivity(i);
         } else if (requestCode == CODIGO_LOGAR) {
@@ -240,31 +233,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void proximo(View v){
-        //metodo de start do fragment Detalhas
-        switch (v.getId()){
-            case R.id.proximo:
-                cont ++;
-                FragmentDetalhes fragmentDetalhes = new FragmentDetalhes();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentLayout, fragmentDetalhes);
-                ActionBar ab = getSupportActionBar();
-                fab.setVisibility(View.GONE);
-                ab.setTitle("Detalhes");
-                transaction.commit();
-                break;
-        }
+        //metodo de start da activity Detalhas
+
     }
 
-    public void location(View v){
-        cont++;
-        FragmentMapa fragmentMapa = new FragmentMapa();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentLayout, fragmentMapa);
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("Localização");
-        fab.setVisibility(View.GONE);
-        transaction.commit();
-    }
+
 
     public void ajuda(View v){
         Toast.makeText(getApplicationContext(), "Teste1", Toast.LENGTH_SHORT).show();

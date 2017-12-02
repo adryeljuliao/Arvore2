@@ -30,7 +30,10 @@ public class FragmentRecyclerArvores extends Fragment {
         View v = inflater.inflate(R.layout.activity_fragment_recycler_arvores, container, false);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+
         mArvoresDatabaseReference = mFirebaseDatabase.getReference().child("arvore");
+
         //logica do fragment
         //carrega();
         //cria-se um recycler view para setar o adapter

@@ -3,6 +3,7 @@ package com.juliao.adryel.arvore;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -14,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,6 +30,10 @@ import java.io.IOException;
 public class CadastroArvore extends AppCompatActivity {
     ImageView imagemView;
 
+    private GPSLocalizacao gpsLocalizacao;
+    private Location localizacao;
+    private double latidude, logitude;
+
     //Arquivo de foto
     private String pictureImagePath = "";
 
@@ -38,7 +45,10 @@ public class CadastroArvore extends AppCompatActivity {
 
     File imgFile = null;
 
+    String nome_usuario;
     EditText nome, descricao, altura, especie;
+
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +67,19 @@ public class CadastroArvore extends AppCompatActivity {
 
         mArvoresDatabaseReference = mFirebaseDatabase.getReference().child("arvore");
 
+        gpsLocalizacao = new GPSLocalizacao(getApplicationContext());
+        localizacao = gpsLocalizacao.getLocalizacao();
+        latidude = localizacao.getLatitude();
+        logitude = localizacao.getLongitude();
+
+
         if (checkStorage() == false){
             Toast.makeText(this, "MASSA", Toast.LENGTH_SHORT).show();
             return;
         }else {
             Intent i = getIntent();
             String arquivo = i.getStringExtra("imagename");
+            nome_usuario = i.getStringExtra("nome_user");
             Log.i("TESTES", ""+ arquivo);
             try {
                 imgFile = createImageFile(arquivo);
@@ -127,7 +144,9 @@ public class CadastroArvore extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                 Uri downaloaduri = taskSnapshot.getDownloadUrl();
 
-                Arvore arvore = new Arvore.ArvoreBuilder(nome.getText().toString(), 0, 0, downaloaduri.toString(), altura.getText().toString()).builder();
+                Arvore arvore = new Arvore(nome.getText().toString(), descricao.getText().toString(), latidude, logitude,
+                        downaloaduri.toString(), altura.getText().toString(), especie.getText().toString(), nome_usuario);
+
                 mArvoresDatabaseReference.push().setValue(arvore);
 
                 Log.i("testes", arvore.toString());

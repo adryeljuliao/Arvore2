@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Detalhes">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".CadastroArvore">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -33,6 +38,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".Mapa">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Detalhes" />
         </activity>
 
         <meta-data

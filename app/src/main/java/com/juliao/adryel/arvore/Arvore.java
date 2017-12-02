@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Arvore {
     private String nome;
+    private String descricao;
     private double latitude;
     private double longitude;
     private String imagem;//string URL PARA O FIREBASE STOREGE
@@ -13,58 +14,19 @@ public class Arvore {
     private List<Ocorrencia> listaOcorrencia;
 
     public Arvore (){
-
     }
 
-    public Arvore(ArvoreBuilder builder) {
-        this.nome = builder.nome;
-        this.altura = builder.altura;
-        this.especie = builder.especie;
-        this.imagem = builder.imagem;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.nomeUsuario = builder.nomeUsuario;
-        this.listaOcorrencia = builder.listaOcorrencia;
-    }
-
-
-    public static class ArvoreBuilder{
-        private String nome;
-        private double latitude;
-        private double longitude;
-        private String imagem;
-        private String altura;
-        private String especie;
-        private String nomeUsuario;
-        private List<Ocorrencia> listaOcorrencia;
-
-        public ArvoreBuilder(String nome, double latitude, double longitude, String imagem, String altura) {
-            this.nome = nome;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.imagem = imagem;
-            this.altura = altura;
-        }
-
-        public ArvoreBuilder comEspecie(String especie){
-            this.especie = especie;
-            return this;
-        }
-
-        public ArvoreBuilder comOcorrencia(List<Ocorrencia> listaOcorrencia){
-            this.listaOcorrencia = listaOcorrencia;
-            return this;
-        }
-
-        public ArvoreBuilder comUsuario(String nomeUsuario){
-            this.nomeUsuario = nomeUsuario;
-            return this;
-        }
-
-        public Arvore builder(){
-            return new Arvore(this);
-        }
-
+    public Arvore(String nome, String descricao, double latitude,
+                  double longitude, String imagem, String altura,
+                  String especie, String nomeUsuario) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.imagem = imagem;
+        this.altura = altura;
+        this.especie = especie;
+        this.nomeUsuario = nomeUsuario;
     }
 
     public void setNome(String nome) {

@@ -36,6 +36,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutArvore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -51,17 +52,18 @@
 
                     <TextView
                         android:id="@+id/nome_arvore"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ARVORE "
                         android:textSize="20dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/especie_arvore"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textSize="14dp"
-                        android:text="A arvore trepadeira..." />
+                        android:text="Especie" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,7 +77,6 @@
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
                         android:src="@mipmap/next"
-                        android:onClick="proximo"
                         android:elevation="0dp"/>
 
                 </LinearLayout>

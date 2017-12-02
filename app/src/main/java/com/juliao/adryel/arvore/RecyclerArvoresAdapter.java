@@ -2,11 +2,17 @@ package com.juliao.adryel.arvore;
 
 import android.content.Context;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,12 +53,12 @@ public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
 
     //metodo para setar os valores das variaveis nos widgets
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ArvoresViewHolder arvoresViewHolder = (ArvoresViewHolder) holder;
         Arvore arvore = listArvores.get(position);
         arvoresViewHolder.nome.setText(arvore.getNome());
+        arvoresViewHolder.especie.setText(arvore.getEspecie());
 
-//        arvoresViewHolder.img.setImageBitmap(arvore.getImagem());
         Glide.with(arvoresViewHolder.img.getContext())
                 .load(arvore.getImagem())
                 .into(arvoresViewHolder.img);
@@ -64,14 +70,16 @@ public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
     }
 
     public class ArvoresViewHolder extends RecyclerView.ViewHolder{
+        final LinearLayout linearLayout;
         final TextView nome;
         final ImageView img;
+        final TextView especie;
         public ArvoresViewHolder(View itemView) {
             super(itemView);
             nome = itemView.findViewById(R.id.nome_arvore);
             img = itemView.findViewById(R.id.foto_arvore);
+            especie = itemView.findViewById(R.id.especie_arvore);
+            linearLayout = itemView.findViewById(R.id.linearLayoutArvore);
         }
     }
-
-
 }

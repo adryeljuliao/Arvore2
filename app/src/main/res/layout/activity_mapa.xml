@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.juliao.adryel.arvore.FragmentMapa"
+    tools:context="com.juliao.adryel.arvore.Mapa"
     android:layout_margin="16dp">
 
         <TextView
