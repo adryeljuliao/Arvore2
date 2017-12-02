@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //instacia do firebase auth
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);

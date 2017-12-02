@@ -69,6 +69,10 @@ public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
         return listArvores != null ? listArvores.size() : 0;
     }
 
+    public Arvore getArvore(int pos){
+        return listArvores.get(pos);
+    }
+
     public class ArvoresViewHolder extends RecyclerView.ViewHolder{
         final LinearLayout linearLayout;
         final TextView nome;

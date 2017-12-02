@@ -92,4 +92,27 @@ public class Arvore {
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
     }
+
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    @Override
+    public String toString() {
+        return "Arvore{" +
+                "nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", imagem='" + imagem + '\'' +
+                ", altura='" + altura + '\'' +
+                ", especie='" + especie + '\'' +
+                ", nomeUsuario='" + nomeUsuario + '\'' +
+                '}';
+    }
 }

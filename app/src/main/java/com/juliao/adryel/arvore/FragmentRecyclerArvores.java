@@ -1,12 +1,16 @@
 package com.juliao.adryel.arvore;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +27,7 @@ public class FragmentRecyclerArvores extends Fragment {
     private DatabaseReference mArvoresDatabaseReference;
     RecyclerArvoresAdapter mArvoresAdapter;
     private ChildEventListener mChildEventListener;
+
 
 
     @Override
@@ -48,6 +53,34 @@ public class FragmentRecyclerArvores extends Fragment {
         RecyclerView.LayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
 
+        recyclerView.addOnItemTouchListener(new MyRecyclerView(getActivity(), recyclerView, new MyRecyclerView.ItemTouch() {
+
+            @Override
+            public void clickSimples(View view, int position) {
+//            findWidigets();
+//            nome.setText(listaArvores.get(position).getNome());
+                Intent intentDetalhes = new Intent(getActivity(), Detalhes.class);
+                Bundle arvoreBundle = new Bundle();
+
+                Arvore a = adapter.getArvore(position);
+
+                arvoreBundle.putString("nome", a.getNome() );
+                arvoreBundle.putString("descricao", a.getDescricao() );
+                arvoreBundle.putString("especie", a.getEspecie() );
+                arvoreBundle.putString("altura", a.getAltura() );
+                arvoreBundle.putDouble("latitude", a.getLatitude() );
+                arvoreBundle.putDouble("longitude", a.getLongitude() );
+                arvoreBundle.putString("nomeUsuario", a.getNomeUsuario() );
+                arvoreBundle.putString("imagem", a.getImagem());
+
+                intentDetalhes.putExtras(arvoreBundle);
+
+                startActivity(intentDetalhes);
+
+            Log.i("Frag", "Entrou aqui no click");
+
+            }
+        }));
 
         mChildEventListener = new ChildEventListener() {
             @Override
