@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "261417510345-0rr267a3km7m5bm5fijkf4nrpstasslj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juliao.adryel.arvore",
+            "certificate_hash": "ae6c7988588a41452accf813814bf3d4bde17fd2"
+          }
+        },
+        {
           "client_id": "261417510345-029n7c7als5qbo5s2khnchu2r788gte4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
