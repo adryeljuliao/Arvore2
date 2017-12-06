@@ -2,8 +2,8 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent"    >
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,17 +12,18 @@
     <ImageView
         android:id="@+id/takeFoto"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="300dp"
         android:background="#999"
         android:scaleType="fitXY"/>
 
     <LinearLayout
+        android:id="@+id/linearlayouCadastro"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="45dp"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -117,6 +118,14 @@
             android:text="Confirmar"
             android:onClick="confirmarCadastroArvore"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
+
 
 </android.support.v4.widget.NestedScrollView>

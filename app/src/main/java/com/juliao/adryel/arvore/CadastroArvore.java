@@ -13,9 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +47,11 @@ public class CadastroArvore extends AppCompatActivity {
     File imgFile = null;
 
     String nome_usuario;
+    ImageView imagem;
     EditText nome, descricao, altura, especie;
+    ProgressBar progressBar;
+
+    LinearLayout linearlayouCadastro;
 
     FirebaseUser user;
 
@@ -73,6 +78,9 @@ public class CadastroArvore extends AppCompatActivity {
         latidude = localizacao.getLatitude();
         logitude = localizacao.getLongitude();
 
+        progressBar = findViewById(R.id.progress_bar);
+        linearlayouCadastro = findViewById(R.id.linearlayouCadastro);
+        imagem = findViewById(R.id.takeFoto);
 
         if (checkStorage() == false){
             Toast.makeText(this, "MASSA", Toast.LENGTH_SHORT).show();
@@ -136,6 +144,11 @@ public class CadastroArvore extends AppCompatActivity {
     }
 
     public void confirmarCadastroArvore(View v){
+
+        linearlayouCadastro.setVisibility(View.GONE);
+        imagem.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         Uri selectedImageUri = Uri.fromFile(imgFile);
         StorageReference photoref = mStorageReference.child(selectedImageUri.getLastPathSegment());
 
@@ -144,11 +157,6 @@ public class CadastroArvore extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getApplicationContext(),"Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                 Uri downaloaduri = taskSnapshot.getDownloadUrl();
-
-                //progress bar que estava GONE, vaiaparecer....
-                //aguarde,
-
-                //o botao cadastrar deve ficar desabilitado..
 
                 Arvore arvore = new Arvore(nome.getText().toString(), descricao.getText().toString(), latidude, logitude,
                         downaloaduri.toString(), altura.getText().toString(), especie.getText().toString(), nome_usuario);

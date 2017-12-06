@@ -6,5 +6,6 @@
         android:orderInCategory="100"
         android:title="Buscar"
         app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@mipmap/procurar2"/>
 </menu>

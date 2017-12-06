@@ -2,15 +2,13 @@ package com.juliao.adryel.arvore;
 
 import android.content.Context;
 
-import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,9 +17,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
+public class RecyclerArvoresAdapter extends RecyclerView.Adapter implements Filterable {
     private ArrayList<Arvore> listArvores;
     private Context context;
+
+    private ArrayList<Arvore> filterListArvores;
 
     public void add(Arvore arvore){
         listArvores.add(arvore);
@@ -72,6 +72,45 @@ public class RecyclerArvoresAdapter extends RecyclerView.Adapter {
     public Arvore getArvore(int pos){
         return listArvores.get(pos);
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                Log.i("TANIRO", "string = " + charString);
+
+                if (charString.isEmpty()) {
+                    filterListArvores = listArvores;
+                } else {
+
+                    ArrayList<Arvore> filteredList = new ArrayList<>();
+
+                    for (Arvore arvore : listArvores) {
+
+                        if (arvore.getNome().toLowerCase().contains(charString) || arvore.getEspecie().toLowerCase().contains(charSequence)) {
+
+                            filteredList.add(arvore);
+                        }
+                    }
+
+                        filterListArvores = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filterListArvores;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listArvores = (ArrayList<Arvore>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public class ArvoresViewHolder extends RecyclerView.ViewHolder{
         final LinearLayout linearLayout;

@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,13 +21,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,32 +37,32 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FloatingActionButton fab;
+    private FloatingActionButton fab1;
+    private FloatingActionButton fab2;
+    private FloatingActionButton fab3;
+    private TextView textView;
+    private TextView textView2;
 
-    NavigationView navigationView;
-
-    FloatingActionButton fab;
-    FloatingActionButton fab1;
-    FloatingActionButton fab2;
-    FloatingActionButton fab3;
-    TextView textView;
-    TextView textView2;
+    private TextView nomeUsuario;
+    private NavigationView navigationView;
+    private View header;
+    private ImageView imageUsuario;
 
     private static final int COD_CAMERA = 24;
     private static final int CODIGO_LOGAR = 55;
 
     //Arquivo de foto
-    String FILENAME = "photo";
+    private String FILENAME = "photo";
     private String pictureImagePath = "";
 
     //fireBase
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
-    FirebaseUser user;
+    private FirebaseUser user;
 
-    private String mUsername;
-
-    long data_atual;
+    private long data_atual;
 
     final String[] permissoes = new String[]{
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -69,10 +71,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             android.Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
-    public Arvore arvoreDetalhes;
+    private SearchView searchView;
+    private MenuItem item;
 
     //Contador dos fragments
     int cont = 0;
+
+    private FragmentRecyclerArvores fragmentRecyclerArvores;
+    private FragmentRecyclerOcorrencias fragmentRecyclerOcorrencias;
+    private FragmentAjuda fragmentAjuda;
 
 
     @Override
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFirebaseAuth = FirebaseAuth.getInstance();
 
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        item = findViewById(R.id.action_busca);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
@@ -133,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                             startActivityForResult(cameraIntent, COD_CAMERA);
-
-
                         }
                     }
                 });
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.listaarvores);
 
-        FragmentRecyclerArvores fragmentRecyclerArvores = new FragmentRecyclerArvores();
+        fragmentRecyclerArvores = new FragmentRecyclerArvores();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentLayout, fragmentRecyclerArvores);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
@@ -169,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
 
         cont = 0;
+        header = navigationView.getHeaderView(0);
+        nomeUsuario = header.findViewById(R.id.nomePerfil);
+        imageUsuario = header.findViewById(R.id.imagePerfil);
 
         //intancia do listener firebase auth
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -183,7 +193,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user != null) {
                     //logado
                     //Toast.makeText(MainActivity.this, "Logado", Toast.LENGTH_SHORT).show();
-                    //onSignInInitialize(user.getDisplayName());
+                    nomeUsuario.setText(user.getDisplayName());
+                    if (user.getPhotoUrl() == null) {
+//                        imagemUsuario.setResource(R.drawable.nomedaimagem);
+                    } else {
+                        Glide.with(imageUsuario.getContext())
+                                .load(user.getPhotoUrl())
+                                .into(imageUsuario);
+                        Log.i("usuario", "" + user.getPhotoUrl());
+                    }
                 } else {
                     //não-logado
 //                    onSignOutCleanUp();
@@ -232,13 +250,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textView2.setVisibility(View.GONE);
     }
 
-    public void proximo(View v){
-        //metodo de start da activity Detalhas
-
-    }
-
-
-
     public void ajuda(View v){
         Toast.makeText(getApplicationContext(), "Teste1", Toast.LENGTH_SHORT).show();
     }
@@ -279,17 +290,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        if (drawer.isDrawerOpen(GravityCompat.START) ) {
+         if(!searchView.isIconified()){
+            searchView.setIconified(true);
+        } else if (drawer.isDrawerOpen(GravityCompat.START) ) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(cont == 0){
+        }  else if(cont == 0){
             finish();
         }else {
             cont = 0;
 
             navigationView.setCheckedItem(R.id.listaarvores);
 
-            FragmentRecyclerArvores fragmentRecyclerArvores = new FragmentRecyclerArvores();
+            fragmentRecyclerArvores = new FragmentRecyclerArvores();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
             ActionBar ab = getSupportActionBar();
@@ -297,28 +309,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab.setVisibility(View.VISIBLE);
             transaction.commit();
         }
+
+//        if(!searchView.isIconified()){
+//            searchView.setIconified(true);
+//        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        item = menu.findItem(R.id.action_busca);
+
+        searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Log.i("TANIRO", "textosubmit"+query+adapter.toString());
+                fragmentRecyclerArvores.getAdapter().getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+//                fragmentRecyclerArvores.getAdapter().getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+
+                fragmentRecyclerArvores = new FragmentRecyclerArvores();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
+                ActionBar ab = getSupportActionBar();
+                ab.setTitle("Lista de Árvores");
+                fab.setVisibility(View.VISIBLE);
+                transaction.commit();
+                return false;
+            }
+        });
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_busca) {
-            Toast.makeText(getApplicationContext(), "Buscar", Toast.LENGTH_SHORT).show();
-            fab.setVisibility(View.VISIBLE);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_busca) {
+//            Toast.makeText(getApplicationContext(), "Buscar", Toast.LENGTH_SHORT).show();
+//            fab.setVisibility(View.VISIBLE);
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -328,32 +380,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.listaarvores) {
             cont = 0;
 
-            FragmentRecyclerArvores fragmentRecyclerArvores = new FragmentRecyclerArvores();
+            fragmentRecyclerArvores = new FragmentRecyclerArvores();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentLayout, fragmentRecyclerArvores);
             ActionBar ab = getSupportActionBar();
             ab.setTitle("Lista de Árvores");
+            searchView.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
             transaction.commit();
 
         } else if (id == R.id.listaocorrencias) {
             cont ++;
 
-            FragmentRecyclerOcorrencias fragmentRecyclerOcorrencias = new FragmentRecyclerOcorrencias();
+            fragmentRecyclerOcorrencias = new FragmentRecyclerOcorrencias();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentLayout, fragmentRecyclerOcorrencias);
             ActionBar ab = getSupportActionBar();
             ab.setTitle("Lista de Ocorrências");
+            searchView.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
             transaction.commit();
         } else if (id == R.id.ajuda) {
             cont ++;
 
-            FragmentAjuda fragmentAjuda = new FragmentAjuda();
+            fragmentAjuda = new FragmentAjuda();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentLayout, fragmentAjuda);
             ActionBar ab = getSupportActionBar();
             ab.setTitle("Ajuda");
+            searchView.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
             transaction.commit();
         } else if(id == R.id.sair){
@@ -393,7 +448,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        //nao basta o listener está instanciado, tem q atachar ele no onresume
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 

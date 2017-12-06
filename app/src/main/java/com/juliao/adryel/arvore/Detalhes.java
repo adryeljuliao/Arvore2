@@ -1,12 +1,9 @@
 package com.juliao.adryel.arvore;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,7 +75,7 @@ public class Detalhes extends AppCompatActivity{
 
         intent.putExtras(arvoreBundle);
 
-        startActivityForResult(intent, 7777);
+        startActivityForResult(intent, 1111);
 
 
     }
@@ -87,7 +84,7 @@ public class Detalhes extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 7777){
+        if (requestCode == 1111){
             Bundle bundleArvore = data.getExtras();
 
             a.setNome(bundleArvore.getString("nome"));
@@ -108,5 +105,10 @@ public class Detalhes extends AppCompatActivity{
                     .load(a.getImagem())
                     .into(imageView);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

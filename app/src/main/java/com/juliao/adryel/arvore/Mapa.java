@@ -1,13 +1,9 @@
 package com.juliao.adryel.arvore;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -55,7 +51,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback {
         a.setEspecie(bundleArvore.getString("especie"));
         a.setNomeUsuario(bundleArvore.getString("nomeUsuario"));
 
-//        nome.setText(a.getNome().toString());
+        nome.setText(a.getNome().toString());
         mMapView = (MapView) findViewById(R.id.map);
 
         if (mMapView != null) {
