@@ -35,7 +35,13 @@ public class RecyclerArvores_OcorrenciasAdapter extends RecyclerView.Adapter {
         }else{
             this.listArvores = new ArrayList<>();
         }
-        this.listOcorrencias = listOcorrencias;
+
+        if (listOcorrencias != null){
+            this.listOcorrencias = listOcorrencias;
+        }else{
+            this.listOcorrencias = new ArrayList<>();
+        }
+
         this.context = context;
     }
 
@@ -54,14 +60,14 @@ public class RecyclerArvores_OcorrenciasAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        RecyclerArvores_OcorrenciasViewHolder recyclerArvores_ocorrenciasAdapter = (RecyclerArvores_OcorrenciasViewHolder) holder;
+        RecyclerArvores_OcorrenciasViewHolder recyclerArvores_ocorrenciasViewHolder = (RecyclerArvores_OcorrenciasViewHolder) holder;
         Arvore arvore = listArvores.get(position);
-        recyclerArvores_ocorrenciasAdapter.nome.setText(arvore.getNome());
-        recyclerArvores_ocorrenciasAdapter.especie.setText(arvore.getEspecie());
+        recyclerArvores_ocorrenciasViewHolder.nome.setText(arvore.getNome());
+        recyclerArvores_ocorrenciasViewHolder.especie.setText(arvore.getEspecie());
 
-        Glide.with(recyclerArvores_ocorrenciasAdapter.img.getContext())
+        Glide.with(recyclerArvores_ocorrenciasViewHolder.img.getContext())
                 .load(arvore.getImagem())
-                .into(recyclerArvores_ocorrenciasAdapter.img);
+                .into(recyclerArvores_ocorrenciasViewHolder.img);
     }
 
     @Override

@@ -39,11 +39,7 @@ public class FragmentRecyclerArvores extends Fragment {
 
         mArvoresDatabaseReference = mFirebaseDatabase.getReference().child("arvore");
 
-        //logica do fragment
-        //carrega();
-        //cria-se um recycler view para setar o adapter
         recyclerView = v.findViewById(R.id.recyclerviewArvores);
-        //pega a viewpage da activity main
 
         //cria-se um adapter
         adapter = new RecyclerArvoresAdapter(null, getContext());

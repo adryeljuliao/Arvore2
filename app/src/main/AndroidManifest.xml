@@ -44,6 +44,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Detalhes" />
         </activity>
+        <activity android:name=".CadastroDefinitivoOcorrencia">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CadastroOcorrencia" />
+        </activity>
+        <activity android:name=".DetalhesOcorrencia">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -59,7 +69,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".CadastroDefinitivoOcorrencia"></activity>
+
     </application>
 
 </manifest>

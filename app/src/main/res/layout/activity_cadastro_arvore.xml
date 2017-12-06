@@ -41,6 +41,8 @@
                    android:id="@+id/textnome"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
+                   android:inputType="textCapSentences"
+                   android:textAllCaps="false"
                    android:hint="Nome da Árvore"/>
 
            </android.support.design.widget.TextInputLayout>
@@ -60,6 +62,8 @@
                     android:id="@+id/textDescricao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:textAllCaps="false"
                     android:hint="Descrição da Árvore"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -80,6 +84,8 @@
                     android:id="@+id/textEspecie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:textAllCaps="false"
                     android:hint="Espécie da Árvore"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -100,6 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Altura da Árvore"
+                    android:textAllCaps="false"
                     android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>

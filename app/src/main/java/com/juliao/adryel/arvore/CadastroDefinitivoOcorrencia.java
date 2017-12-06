@@ -15,7 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CadastroDefinitivoOcorrencia extends AppCompatActivity {
     Arvore a;
 
-    private ImageView imageView;
     private TextView nome;
     private TextView nomeOcorrencia;
     private TextView detalhesOcorrencia;
@@ -35,11 +34,8 @@ public class CadastroDefinitivoOcorrencia extends AppCompatActivity {
         ab.setTitle("Cadastro de Ocorrências");
         ab.setDisplayHomeAsUpEnabled(true);
 
-//        imageView = findViewById(R.id.imageView);
         nome = findViewById(R.id.ocorrenciaNomeArvore);
-//        especie = findViewById(R.id.especie);
-//        altura = findViewById(R.id.altura);
-//        detalhes = findViewById(R.id.detalhes);
+
         nomeOcorrencia = findViewById(R.id.textnome11);
         detalhesOcorrencia = findViewById(R.id.textDescricao22);
         obsOcorrencia = findViewById(R.id.textObs33);
